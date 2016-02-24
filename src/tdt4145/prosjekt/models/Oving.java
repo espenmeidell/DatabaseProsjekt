@@ -9,89 +9,89 @@ import javafx.beans.property.StringProperty;
  * Created by Espen Meidell <espen.meidell@gmail.com> on 24.02.16.
  */
 public class Oving {
-    private StringProperty navnProperty, beskrivelsePropery, enhetProperty;
-    private IntegerProperty belastningProperty, repetisjonerProperty, settProperty;
+    private StringProperty navn, beskrivelse, enhet;
+    private IntegerProperty belastning, repetisjoner, sett;
 
     public Oving(String navn, String beskrivelse, int belastning, int repetisjoner, int sett, String enhet) {
-        this.navnProperty = new SimpleStringProperty(navn);
-        this.beskrivelsePropery = new SimpleStringProperty(beskrivelse);
-        this.enhetProperty = new SimpleStringProperty(enhet);
-        this.belastningProperty = new SimpleIntegerProperty(belastning);
-        this.repetisjonerProperty = new SimpleIntegerProperty(repetisjoner);
-        this.settProperty = new SimpleIntegerProperty(sett);
+        this.navn = new SimpleStringProperty(navn);
+        this.beskrivelse = new SimpleStringProperty(beskrivelse);
+        this.enhet = new SimpleStringProperty(enhet);
+        this.belastning = new SimpleIntegerProperty(belastning);
+        this.repetisjoner = new SimpleIntegerProperty(repetisjoner);
+        this.sett = new SimpleIntegerProperty(sett);
     }
 
 
 
-    public String getNavnProperty() {
-        return navnProperty.get();
+    public String getNavn() {
+        return navn.get();
     }
 
-    public StringProperty navnPropertyProperty() {
-        return navnProperty;
+    public StringProperty navnProperty() {
+        return navn;
     }
 
-    public void setNavnProperty(String navnProperty) {
-        this.navnProperty.set(navnProperty);
+    public void setNavn(String navn) {
+        this.navn.set(navn);
     }
 
-    public String getBeskrivelsePropery() {
-        return beskrivelsePropery.get();
+    public String getBeskrivelse() {
+        return beskrivelse.get();
     }
 
-    public StringProperty beskrivelseProperyProperty() {
-        return beskrivelsePropery;
+    public StringProperty beskrivelseProperty() {
+        return beskrivelse;
     }
 
-    public void setBeskrivelsePropery(String beskrivelsePropery) {
-        this.beskrivelsePropery.set(beskrivelsePropery);
+    public void setBeskrivelse(String beskrivelse) {
+        this.beskrivelse.set(beskrivelse);
     }
 
-    public String getEnhetProperty() {
-        return enhetProperty.get();
+    public String getEnhet() {
+        return enhet.get();
     }
 
-    public StringProperty enhetPropertyProperty() {
-        return enhetProperty;
+    public StringProperty enhetProperty() {
+        return enhet;
     }
 
-    public void setEnhetProperty(String enhetProperty) {
-        this.enhetProperty.set(enhetProperty);
+    public void setEnhet(String enhet) {
+        this.enhet.set(enhet);
     }
 
-    public int getBelastningProperty() {
-        return belastningProperty.get();
+    public int getBelastning() {
+        return belastning.get();
     }
 
-    public IntegerProperty belastningPropertyProperty() {
-        return belastningProperty;
+    public IntegerProperty belastningProperty() {
+        return belastning;
     }
 
-    public void setBelastningProperty(int belastningProperty) {
-        this.belastningProperty.set(belastningProperty);
+    public void setBelastning(int belastning) {
+        this.belastning.set(belastning);
     }
 
-    public int getRepetisjonerProperty() {
-        return repetisjonerProperty.get();
+    public int getRepetisjoner() {
+        return repetisjoner.get();
     }
 
-    public IntegerProperty repetisjonerPropertyProperty() {
-        return repetisjonerProperty;
+    public IntegerProperty repetisjonerProperty() {
+        return repetisjoner;
     }
 
-    public void setRepetisjonerProperty(int repetisjonerProperty) {
-        this.repetisjonerProperty.set(repetisjonerProperty);
+    public void setRepetisjoner(int repetisjoner) {
+        this.repetisjoner.set(repetisjoner);
     }
 
-    public int getSettProperty() {
-        return settProperty.get();
+    public int getSett() {
+        return sett.get();
     }
 
-    public IntegerProperty settPropertyProperty() {
-        return settProperty;
+    public IntegerProperty settProperty() {
+        return sett;
     }
 
-    public void setSettProperty(int settProperty) {
-        this.settProperty.set(settProperty);
+    public void setSett(int sett) {
+        this.sett.set(sett);
     }
 }
