@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane layoutY="95.0" prefHeight="446.0" prefWidth="600.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Øvelser">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Label text="Økter" GridPane.columnIndex="1">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Label text="Progresjon" GridPane.columnIndex="2">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" text="Se alle øvelser" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" text="Legg til ny øvelse" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" text="Slett øvelse" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" text="Se alle mål" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" text="Legg til nytt mål for øvelse" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" text="Se progresjon i en  periode" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" text="Ny økt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" text="Legg til øvelser i økt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" text="Differanse mellom resultater" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" text="Kopier en annen økt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" text="Se resultat og form sammen" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Button mnemonicParsing="false" text="Se alle treningsnotater" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" text="Button" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+      <Label layoutX="170.0" layoutY="14.0" text="Treningsdagbok">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
