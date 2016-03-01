@@ -73,6 +73,24 @@ public class DatabaseInsert {
 
     }
 
+    /**
+     * Okt har ovelse
+     * @param okt
+     * @param ovelse
+     * @throws SQLException
+     */
+    public static void oktHarOvelse(int okt, String ovelse) throws SQLException {
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "INSERT INTO espenmei_treningdb.okt_har_ovelse\n" +
+                "(oktid, ovelse)\n" +
+                "VALUES(?, ?)";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        statement.setInt(1, okt);
+        statement.setString(2, ovelse);
+        statement.executeUpdate();
+        connect.close();
+    }
+
 
 
 

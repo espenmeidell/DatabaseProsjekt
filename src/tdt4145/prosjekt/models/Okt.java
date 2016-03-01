@@ -13,7 +13,22 @@ public class Okt {
     private StringProperty navn, notat;
     private Property<LocalDate> dato;
     private Property<LocalTime> start, slutt;
-    private IntegerProperty form, prestasjon;
+    private IntegerProperty form;
+    private IntegerProperty prestasjon;
+
+    public int getId() {
+        return id.get();
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
+    private IntegerProperty id;
 
     public Okt(String navn, LocalDate dato, LocalTime start, LocalTime slutt, int form, int prestasjon, String notat) {
         this.navn = new SimpleStringProperty(navn);
