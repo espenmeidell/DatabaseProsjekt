@@ -26,5 +26,20 @@ public class DatabaseRetrieve {
         return log;
     };
 
+    public static List<String> getOvelser() throws SQLException{
+        ArrayList<String> ovelser = new ArrayList<>();
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "SELECT navn\n" +
+                "FROM espenmei_treningdb.ovelse;\n";
+        Statement statement = connect.createStatement();
+        ResultSet result = statement.executeQuery(sql);
+        while (result.next()){
+            ovelser.add(result.getString("navn"));
+        }
+
+        return ovelser;
+    }
+
+
 
 }
