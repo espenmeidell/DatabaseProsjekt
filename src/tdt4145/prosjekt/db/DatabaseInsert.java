@@ -1,5 +1,6 @@
 package tdt4145.prosjekt.db;
 
+import tdt4145.prosjekt.models.Mal;
 import tdt4145.prosjekt.models.Okt;
 import tdt4145.prosjekt.models.Ovelse;
 
@@ -91,7 +92,24 @@ public class DatabaseInsert {
         connect.close();
     }
 
+    /**
+     * Nytt mal
+     * @param mal
+     * @throws SQLException
+      */
 
+    public static void nyttMal(Mal mal) throws SQLException{
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "INSERT INTO espenmei_treningdb.mal\n" +
+                "(id, mal, dato)\n" +
+                "VALUES(?, ?, ?);\n";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        statement.setInt(1, mal.getId());
+        statement.setInt(2, mal.getMal());
+        statement.setDate(3, Date.valueOf(mal.getDato()));
+        statement.executeUpdate();
+        connect.close();
+    }
 
 
 

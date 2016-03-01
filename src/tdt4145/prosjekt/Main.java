@@ -7,9 +7,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tdt4145.prosjekt.db.DatabaseInsert;
 import tdt4145.prosjekt.db.DatabaseRetrieve;
+import tdt4145.prosjekt.models.Mal;
 import tdt4145.prosjekt.models.Ovelse;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class Main extends Application {
 
