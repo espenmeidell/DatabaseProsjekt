@@ -8,11 +8,11 @@ import javafx.beans.property.StringProperty;
 /**
  * Created by Espen Meidell <espen.meidell@gmail.com> on 24.02.16.
  */
-public class Oving {
+public class Ovelse {
     private StringProperty navn, beskrivelse, enhet;
     private IntegerProperty belastning, repetisjoner, sett;
 
-    public Oving(String navn, String beskrivelse, int belastning, int repetisjoner, int sett, String enhet) {
+    public Ovelse(String navn, String beskrivelse, int belastning, int repetisjoner, int sett, String enhet) {
         this.navn = new SimpleStringProperty(navn);
         this.beskrivelse = new SimpleStringProperty(beskrivelse);
         this.enhet = new SimpleStringProperty(enhet);

@@ -1,7 +1,7 @@
 package tdt4145.prosjekt.db;
 
 import tdt4145.prosjekt.models.Okt;
-import tdt4145.prosjekt.models.Oving;
+import tdt4145.prosjekt.models.Ovelse;
 
 import java.sql.*;
 
@@ -14,22 +14,22 @@ public class DatabaseInsert {
 
 
     /**
-     * Insert oving into database
-     * @param oving Oving to insert
+     * Insert ovelse into database
+     * @param ovelse Ovelse to insert
      * @throws SQLException Any SQL exception
      */
-    public static void insertOving(Oving oving) throws SQLException{
+    public static void insertOvelse(Ovelse ovelse) throws SQLException{
         connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
         String sql = "INSERT INTO espenmei_treningdb.ovelse\n" +
                 "(navn, beskrivelse, belastning, repetisjoner, sett, enhet)\n" +
                 "VALUES(?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = connect.prepareStatement(sql);
-        statement.setString(1, oving.getNavn());
-        statement.setString(2, oving.getBeskrivelse());
-        statement.setInt(3, oving.getBelastning());
-        statement.setInt(4, oving.getRepetisjoner());
-        statement.setInt(5, oving.getSett());
-        statement.setString(6, oving.getEnhet());
+        statement.setString(1, ovelse.getNavn());
+        statement.setString(2, ovelse.getBeskrivelse());
+        statement.setInt(3, ovelse.getBelastning());
+        statement.setInt(4, ovelse.getRepetisjoner());
+        statement.setInt(5, ovelse.getSett());
+        statement.setString(6, ovelse.getEnhet());
         statement.executeUpdate();
         connect.close();
     }
@@ -50,6 +50,11 @@ public class DatabaseInsert {
         connect.close();
     }
 
+    /**
+     * Insert okt
+     * @param okt
+     * @throws SQLException
+     */
     public static void insertOkt(Okt okt) throws SQLException{
         connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
         String sql = "INSERT INTO espenmei_treningdb.okt\n" +
@@ -67,6 +72,7 @@ public class DatabaseInsert {
         connect.close();
 
     }
+
 
 
 
