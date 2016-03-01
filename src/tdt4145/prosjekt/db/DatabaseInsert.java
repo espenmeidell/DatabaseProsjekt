@@ -92,6 +92,23 @@ public class DatabaseInsert {
     }
 
 
+    /**
+     * Insert Resultat
+     */
+    public static void insertResultat(int oktid, String ovelse, int resultat) throws SQLException{
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "INSERT INTO espenmei_treningdb.resultat\n" +
+                "(resultat, ovelse, oktid)\n" +
+                "VALUES(?, ?, ?);";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        statement.setInt(1, resultat);
+        statement.setString(2, ovelse);
+        statement.setInt(3, oktid);
+        statement.executeUpdate();
+        connect.close();
+    }
+
+
 
 
 

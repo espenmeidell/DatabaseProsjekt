@@ -1,6 +1,7 @@
 package tdt4145.prosjekt.db;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class DatabaseRetrieve {
         while (result.next()) {
             log.add(result.getString("navn")+", "+result.getDate("dato").toString()+": "+result.getString("notat"));
         }
-
+        connect.close();
         return log;
     };
 
@@ -36,8 +37,36 @@ public class DatabaseRetrieve {
         while (result.next()){
             ovelser.add(result.getString("navn"));
         }
-
+        connect.close();
         return ovelser;
+    }
+
+
+    /**
+     * Få progresjon for øvelse i intervallet
+     * @param ovelse
+     * @param start
+     * @param slutt
+     * @return
+     * @throws SQLException
+     */
+    public static List<String> getProgresjonForOvelseIntervall(String ovelse, LocalDate start, LocalDate slutt) throws SQLException{
+        ArrayList<String> progresjon = new ArrayList<>();
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "SELECT dato, res.ovelse, resultat\n" +
+                "FROM espenmei_treningdb.resultat AS res, espenmei_treningdb.okt\n" +
+                "WHERE res.oktid = okt.id AND res.ovelse = ? AND dato > ? AND dato < ?\n" +
+                "ORDER BY dato";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        statement.setString(1, ovelse);
+        statement.setDate(2, Date.valueOf(start));
+        statement.setDate(3, Date.valueOf(slutt));
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            progresjon.add(result.getDate("dato").toString()+" "+result.getString("ovelse")+": "+Integer.toString(result.getInt("resultat")));
+        }
+        connect.close();
+        return progresjon;
     }
 
 
