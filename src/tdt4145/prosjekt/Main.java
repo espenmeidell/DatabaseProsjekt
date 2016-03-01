@@ -5,6 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tdt4145.prosjekt.db.DatabaseInsert;
+import tdt4145.prosjekt.db.DatabaseRetrieve;
+import tdt4145.prosjekt.models.Okt;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Main extends Application {
 
@@ -18,7 +24,11 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-
+        try {
+            DatabaseRetrieve.getTreningsNotatLog().forEach(System.out::println);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         launch(args);
     }
 }
