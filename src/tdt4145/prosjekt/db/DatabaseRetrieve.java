@@ -88,6 +88,56 @@ public class DatabaseRetrieve {
         return mal;
     }
 
+    /**
+     * Få alle målene som er registrert for en øvelse
+     * @param ovelse
+     * @return
+     * @throws SQLException
+     */
+    public static List<String> getMalForOvelse(String ovelse) throws SQLException{
+        ArrayList<String> mal = new ArrayList<>();
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "SELECT mal, dato, ovelse\n" +
+                "FROM espenmei_treningdb.mal, espenmei_treningdb.har_mal\n" +
+                "WHERE mal.id = har_mal.id AND ovelse=?\n" +
+                "ORDER BY DATO";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        statement.setString(1, ovelse);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            mal.add(result.getDate("dato").toString()+": "+Integer.toString(result.getInt("mal")));
+        }
+        connect.close();
+        return mal;
+    }
+
+
+    /**
+     * Få det beste resultatet for en øvelse etter en gitt dato
+     * @param ovelse
+     * @param dato
+     * @return
+     * @throws SQLException
+     */
+    public static String getBesteResultatEtter(String ovelse, LocalDate dato) throws SQLException{
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "SELECT dato, resultat\n" +
+                "FROM espenmei_treningdb.resultat INNER JOIN espenmei_treningdb.okt ON resultat.oktid=okt.id\n" +
+                "WHERE resultat = (SELECT MAX(resultat)\n" +
+                "\tFROM espenmei_treningdb.resultat INNER JOIN espenmei_treningdb.okt ON resultat.oktid=okt.id\n" +
+                "\tWHERE dato > ? AND ovelse=?\n" +
+                ")";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        statement.setDate(1, Date.valueOf(dato));
+        statement.setString(2, ovelse);
+        ResultSet result = statement.executeQuery();
+        String res = "";
+        while (result.next()) {
+            res = result.getDate("dato").toString()+": "+Integer.toString(result.getInt("resultat"));
+        }
+        connect.close();
+        return  res;
+    }
 
 
 }
