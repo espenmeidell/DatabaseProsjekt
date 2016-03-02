@@ -69,6 +69,25 @@ public class DatabaseRetrieve {
         return progresjon;
     }
 
+    /**
+     * Hent ut alle mål
+     * @return ArrayList<String> mal
+     * @throws SQLException
+     */
+
+    public static List<String> getMal() throws SQLException{
+        ArrayList<String> mal = new ArrayList<>();
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "SELECT mal\n" +
+                "FROM espenmei_treningdb.mal;\n";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+        while (result.next()){
+            mal.add(result.getString("mal"));
+        }
+        return mal;
+    }
+
 
 
 }

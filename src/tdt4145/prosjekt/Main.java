@@ -25,12 +25,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        try {
-            DatabaseRetrieve.getProgresjonForOvelseIntervall("Roing", LocalDate.now().minusMonths(3), LocalDate.now().plusMonths(3)).forEach(System.out::println);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         launch(args);
     }
 }
