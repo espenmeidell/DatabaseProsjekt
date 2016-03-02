@@ -27,13 +27,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        try {
-            System.out.println(DatabaseRetrieve.getBesteResultatEtter("Squats", LocalDate.now().minusYears(1)));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //launch(args);
+        launch(args);
     }
 }
