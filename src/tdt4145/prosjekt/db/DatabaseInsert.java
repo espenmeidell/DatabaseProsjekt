@@ -5,6 +5,9 @@ import tdt4145.prosjekt.models.Okt;
 import tdt4145.prosjekt.models.Ovelse;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 /**
  * Created by Espen Meidell <espen.meidell@gmail.com> on 24.02.16.
@@ -127,6 +130,51 @@ public class DatabaseInsert {
         statement.setDate(3, Date.valueOf(mal.getDato()));
         statement.executeUpdate();
         connect.close();
+    }
+
+    /**
+     * Kopier alle øvelsene i en økt inn i en ny, tom øvelse uten resultater
+     * @param oktid
+     * @throws SQLException
+     */
+
+    public static void copyOkt(int oktid) throws SQLException{
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        //Finn alle øvelsene som er i denne økten
+        ArrayList<String> ovelser = new ArrayList<>();
+        String selectSql = "SELECT ovelse\n" +
+                "FROM espenmei_treningdb.okt_har_ovelse\n" +
+                "WHERE oktid = " + String.valueOf(oktid);
+        PreparedStatement statement = connect.prepareStatement(selectSql);
+        ResultSet result = statement.executeQuery();
+        while(result.next()){
+            ovelser.add(result.getString("ovelse"));
+        }
+        connect.close();
+
+        //lag ny økt med ny økt-ID
+        insertOkt(new Okt(null, LocalDate.now(), LocalTime.now(), LocalTime.now(), 0, 0, null));
+
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        //Finner største økt-ID
+        String biggestIdSql = "SELECT MAX(id)\n" +
+                "FROM espenmei_treningdb.okt;\n";
+        PreparedStatement statement1 = connect.prepareStatement(biggestIdSql);
+        ResultSet result1 = statement1.executeQuery();
+        int maxid = -1;
+        while(result1.next()){
+            maxid = result1.getInt("MAX(id)");
+        }
+        connect.close();
+
+        //legg til øvelsene i en ny økt
+
+        for(String ovelse : ovelser){
+            System.out.println(ovelse);
+            oktHarOvelse(maxid, ovelse);
+        }
+
+
     }
 
 
