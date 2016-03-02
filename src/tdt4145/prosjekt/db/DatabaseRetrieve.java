@@ -133,7 +133,7 @@ public class DatabaseRetrieve {
         ResultSet result = statement.executeQuery();
         String res = "";
         while (result.next()) {
-            res = result.getDate("dato").toString()+" "+Integer.toString(result.getInt("resultat"));
+            res = result.getDate("dato").toString()+": "+Integer.toString(result.getInt("resultat"));
         }
         connect.close();
         return  res;
