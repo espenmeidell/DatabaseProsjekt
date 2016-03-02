@@ -8,10 +8,12 @@ import javafx.stage.Stage;
 import tdt4145.prosjekt.db.DatabaseInsert;
 import tdt4145.prosjekt.db.DatabaseRetrieve;
 import tdt4145.prosjekt.models.Mal;
+import tdt4145.prosjekt.models.Okt;
 import tdt4145.prosjekt.models.Ovelse;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Main extends Application {
 
@@ -26,11 +28,12 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         try {
-            DatabaseRetrieve.getProgresjonForOvelseIntervall("Roing", LocalDate.now().minusMonths(3), LocalDate.now().plusMonths(3)).forEach(System.out::println);
+            System.out.println(DatabaseRetrieve.getBesteResultatEtter("Squats", LocalDate.now().minusYears(1)));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        launch(args);
+        //launch(args);
     }
 }
