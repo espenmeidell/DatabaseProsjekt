@@ -130,5 +130,25 @@ public class DatabaseInsert {
     }
 
 
+    /*
+
+    METODER FOR SLETTING AV DATA
+
+     */
+
+    /**
+     * Slett en øvelse
+     * @param navn Navnet på øvelsen man sletter
+     * @throws SQLException
+     */
+    public static void slettOvelse(String navn) throws SQLException{
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "DELETE FROM espenmei_treningdb.ovelse\n" +
+                "WHERE navn=?;\n";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        statement.setString(1, navn);
+        statement.executeUpdate();
+        connect.close();
+    }
 
 }
