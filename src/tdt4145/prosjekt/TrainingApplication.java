@@ -6,10 +6,9 @@ import tdt4145.prosjekt.db.OtherMethods;
 import tdt4145.prosjekt.models.InputHelper;
 import tdt4145.prosjekt.models.Ovelse;
 
+import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Scanner;
 
 /**
  * Created by Espen Meidell <espen.meidell@gmail.com> on 02.03.16.
@@ -18,8 +17,87 @@ public class TrainingApplication {
     InputHelper helper = new InputHelper();
 
     public void run() {
-        slettOvelse();
+        leggTilResultat();
+        printResultater();
     }
+
+
+    private void printOkter() {
+        System.out.println("Registrerte Økter: ");
+        try {
+            DatabaseRetrieve.getOkter().forEach(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void registerUteData() {
+        printOkter();
+        int id = helper.getIntegerFromUser("Hvilken øvelse vil du registrere utedata for? ");
+        int temp = helper.getIntegerFromUser("Hva var temperaturen? ");
+        String vaer = helper.getNotEmptyStringFromUser("Hvordan var været? ");
+        try {
+            DatabaseInsert.setUteData(id, temp, vaer);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void registerInneData() {
+        printOkter();
+        int id = helper.getIntegerFromUser("Hvilken øvelse vil du registrere innedata for? ");
+        int luft = helper.getIntegerInRangeFromUser("Hvordan var luftkvaliteten (mellom 1 og 10)? ", 1, 10);
+        int tilskuere = helper.getIntegerFromUser("Hvor mange tilskuere? ");
+        try {
+            DatabaseInsert.setInneData(id, luft, tilskuere);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // USE CASE 1
+
+    private void leggTilOvelseIOkt() {
+        printOkter();
+        int id = helper.getIntegerFromUser("Hvilken øvelse vil du legge til øvelse for? ");
+        try {
+            System.out.println("Følgende er registrert på denne økten:");
+            DatabaseRetrieve.getOvelseriOkt(id).forEach(System.out::println);
+            System.out.println("Tilgjengelige Øvelser: ");
+            DatabaseRetrieve.getOvelser().forEach(System.out::println);
+            String toreg = helper.getNotEmptyStringFromUser("Hvilken vil du legge til? ");
+            DatabaseInsert.oktHarOvelse(id, toreg);
+            DatabaseRetrieve.getOvelseriOkt(id).forEach(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void leggTilResultat() {
+        printOkter();
+        int id = helper.getIntegerFromUser("Hvilken økt vil du registrere for? ");
+        try {
+            System.out.println("Følgende øvelser er registrert: ");
+            DatabaseRetrieve.getOvelseriOkt(id).forEach(System.out::println);
+            String ovelse = helper.getNotEmptyStringFromUser("Hvilken øvelse vil du registrere for? ");
+            int resultat = helper.getIntegerFromUser("Hva ble resultatet? ");
+            DatabaseInsert.insertResultat(id, ovelse, resultat);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void printResultater() {
+        printOkter();
+        int id = helper.getIntegerFromUser("Hvilken økt vil du se registrerte resultater for? ");
+        try {
+            DatabaseRetrieve.getResultateriOkt(id).forEach(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     // USE CASE 2
@@ -32,6 +110,30 @@ public class TrainingApplication {
             e.printStackTrace();
         }
     }
+
+    // USE CASE 3
+
+    private void seProgresjon() {
+        printOvelser();
+        String ovelse = helper.getNotEmptyStringFromUser("Hvilken øvelse vil du se progresjonen for? ");
+        try {
+            DatabaseRetrieve.getProgresjonForOvelseIntervall(ovelse, LocalDate.now().minusYears(10), LocalDate.now().plusYears(1)).forEach(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void seMal() {
+        printOvelser();
+        String ovelse = helper.getNotEmptyStringFromUser("Hvilken øvelse vil du se mål for? ");
+        try {
+            DatabaseRetrieve.getMalForOvelse(ovelse).forEach(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 
@@ -61,7 +163,46 @@ public class TrainingApplication {
 
     }
 
+    //USE CASE 5
+    private void kopierOkt() {
+        printOkter();
+        int id = helper.getIntegerFromUser("Velg en ID å kopiere: ");
+        String name = helper.getNotEmptyStringFromUser("Navnet på ny økt: ");
+        try {
+            DatabaseInsert.copyOkt(id, name);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    // USE CASE 6
+    private void printUteSammenheng() {
+        try {
+            DatabaseRetrieve.getSammenhengUteData().forEach(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void printInneSammenheng() {
+        try {
+            DatabaseRetrieve.getSammenhengInneData().forEach(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    // USE CASE 7
+
+    private void printNotatLog() {
+        try {
+            DatabaseRetrieve.getTreningsNotatLog().forEach(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     // USE CASE 8

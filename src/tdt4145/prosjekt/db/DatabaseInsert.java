@@ -135,10 +135,11 @@ public class DatabaseInsert {
     /**
      * Kopier alle øvelsene i en økt inn i en ny, tom øvelse uten resultater
      * @param oktid
+     * @param nyttnavn
      * @throws SQLException
      */
 
-    public static void copyOkt(int oktid) throws SQLException{
+    public static void copyOkt(int oktid, String nyttnavn) throws SQLException{
         connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
         //Finn alle øvelsene som er i denne økten
         ArrayList<String> ovelser = new ArrayList<>();
@@ -153,7 +154,7 @@ public class DatabaseInsert {
         connect.close();
 
         //lag ny økt med ny økt-ID
-        insertOkt(new Okt(null, LocalDate.now(), LocalTime.now(), LocalTime.now(), 0, 0, null));
+        insertOkt(new Okt(nyttnavn, LocalDate.now(), LocalTime.now(), LocalTime.now(), 0, 0, null));
 
         connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
         //Finner største økt-ID
@@ -176,6 +177,49 @@ public class DatabaseInsert {
 
 
     }
+
+
+    // FORHOLD DATA
+
+    /**
+     * Set utedata til en okt
+     * @param id
+     * @param temp
+     * @param vaer
+     * @throws SQLException
+     */
+    public static void setUteData(int id, int temp, String vaer) throws SQLException{
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "INSERT INTO espenmei_treningdb.ute_okt_data\n" +
+                "(oktid, temperatur, var)\n" +
+                "VALUES(?, ?, ?);\n";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        statement.setInt(1, id);
+        statement.setInt(2, temp);
+        statement.setString(3, vaer);
+        statement.executeUpdate();
+        connect.close();
+    }
+
+    /**
+     * Set innedata for økt
+     * @param id
+     * @param luft
+     * @param tilskuere
+     * @throws SQLException
+     */
+    public static void setInneData(int id, int luft, int tilskuere) throws SQLException {
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "INSERT INTO espenmei_treningdb.inne_okt_data" +
+                "(oktid, luft, tilskuere) VALUES (?, ?, ?);";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        statement.setInt(1, id);
+        statement.setInt(2, luft);
+        statement.setInt(3, tilskuere);
+        statement.executeUpdate();
+        connect.close();
+    }
+
 
 
     /*

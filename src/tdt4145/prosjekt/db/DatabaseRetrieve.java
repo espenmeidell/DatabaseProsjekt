@@ -111,6 +111,24 @@ public class DatabaseRetrieve {
         return mal;
     }
 
+    /**
+     * Få en liste med alle øktene
+     * @return
+     */
+    public static List<String> getOkter() throws SQLException{
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "SELECT * FROM espenmei_treningdb.okt";
+        PreparedStatement statement = connect.prepareStatement(sql);
+        ArrayList<String> resultat = new ArrayList<>();
+        ResultSet resultSet = statement.executeQuery();
+        String res = "";
+        while (resultSet.next()) {
+            resultat.add(String.format("ID: %d, Navn: %s, Dato: %s", resultSet.getInt("id"), resultSet.getString("navn"), resultSet.getDate("dato").toString()));
+        }
+        connect.close();
+        return  resultat;
+    }
+
 
     /**
      * Få det beste resultatet for en øvelse etter en gitt dato
@@ -138,6 +156,90 @@ public class DatabaseRetrieve {
         connect.close();
         return  res;
     }
+
+    /**
+     * Hent sammenhengen mellom økt og uteforhold
+     * @return
+     * @throws SQLException
+     */
+    public static List<String> getSammenhengUteData() throws SQLException{
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "SELECT navn, dato, form, prestasjon, temperatur, var\n" +
+                "FROM espenmei_treningdb.ute_okt_data \n" +
+                "INNER JOIN espenmei_treningdb.okt ON espenmei_treningdb.okt.id = espenmei_treningdb.ute_okt_data.oktid;";
+        PreparedStatement stm = connect.prepareStatement(sql);
+        List<String> res = new ArrayList<>();
+        ResultSet result = stm.executeQuery();
+        while (result.next()) {
+            res.add(String.format("%10s, (%s): Form: %2d, Resultat: %2d, Temperatur: %2d, Vær: %s", result.getString("navn"), result.getDate("dato").toString(), result.getInt("form"),
+                    result.getInt("prestasjon"), result.getInt("temperatur"), result.getString("var")));
+        }
+        connect.close();
+
+        return res;
+    }
+
+    /**
+     * Få sammenhengen mellom innedata og prestasjon
+     * @return
+     * @throws SQLException
+     */
+    public static List<String> getSammenhengInneData() throws SQLException {
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "SELECT navn, dato, form, prestasjon, luft, tilskuere\n" +
+                "FROM espenmei_treningdb.inne_okt_data \n" +
+                "INNER JOIN espenmei_treningdb.okt ON espenmei_treningdb.okt.id = espenmei_treningdb.inne_okt_data.oktid;";
+        PreparedStatement stm = connect.prepareStatement(sql);
+        List<String> res = new ArrayList<>();
+        ResultSet result = stm.executeQuery();
+        while (result.next()) {
+            res.add(String.format("%10s, (%s): Form: %2d, Resultat: %2d, Luftkvalitet: %2d, Tilskuere: %d", result.getString("navn"), result.getDate("dato").toString(), result.getInt("form"),
+                    result.getInt("prestasjon"), result.getInt("luft"), result.getInt("tilskuere")));
+        }
+        connect.close();
+
+        return res;
+    }
+
+    /**
+     * Få øvelser registret på økt
+     * @param oktid
+     * @return
+     * @throws SQLException
+     */
+    public static List<String> getOvelseriOkt(int oktid) throws SQLException{
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "SELECT ovelse.navn \n" +
+                "FROM espenmei_treningdb.okt, espenmei_treningdb.okt_har_ovelse, espenmei_treningdb.ovelse\n" +
+                "WHERE okt.id = okt_har_ovelse.oktid AND okt_har_ovelse.ovelse = ovelse.navn AND okt.id = ?;";
+        PreparedStatement stm = connect.prepareStatement(sql);
+        stm.setInt(1, oktid);
+        List<String> res = new ArrayList<>();
+        ResultSet result = stm.executeQuery();
+        while (result.next()) {
+            res.add(result.getString("navn"));
+        }
+        connect.close();
+        return res;
+    }
+
+    public static List<String> getResultateriOkt(int oktid) throws SQLException {
+        connect = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no?" + "user=espenmei_trening&password=eplekake");
+        String sql = "SELECT o.navn, o.dato, r.ovelse, r.resultat\n" +
+                "FROM espenmei_treningdb.resultat as r, espenmei_treningdb.okt as o\n" +
+                "WHERE r.oktid = o.id AND o.id = ?";
+        PreparedStatement stm = connect.prepareStatement(sql);
+        stm.setInt(1, oktid);
+        List<String> res = new ArrayList<>();
+        ResultSet result = stm.executeQuery();
+        while (result.next()) {
+            res.add(String.format("%10s (%s), %10s: %d", result.getString("navn"), result.getString("dato"), result.getString("ovelse"), result.getInt("resultat")));
+        }
+        connect.close();
+        return res;
+
+    }
+
 
 
 }
