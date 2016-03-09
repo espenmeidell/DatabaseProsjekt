@@ -4,6 +4,7 @@ import tdt4145.prosjekt.db.DatabaseInsert;
 import tdt4145.prosjekt.db.DatabaseRetrieve;
 import tdt4145.prosjekt.db.OtherMethods;
 import tdt4145.prosjekt.models.InputHelper;
+import tdt4145.prosjekt.models.Okt;
 import tdt4145.prosjekt.models.Ovelse;
 
 import javax.xml.crypto.Data;
@@ -17,10 +18,59 @@ public class TrainingApplication {
     InputHelper helper = new InputHelper();
 
     public void run() {
-        leggTilResultat();
-        printResultater();
-    }
+        System.out.println("Velg et alternativ: ");
+        System.out.println("\t 1  - Legg til økt");
+        System.out.println("\t 2  - Legg til øvelse");
+        System.out.println("\t 3  - Legg til øvelse i økt");
+        System.out.println("\t 4  - Legg til resultat");
+        System.out.println("\t 5  - Se progresjon for øvelse");
+        System.out.println("\t 6  - Se registrerte mål");
+        System.out.println("\t 7  - Se diff. på beste resultat og mål");
+        System.out.println("\t 8  - Lag ny økt basert på mal");
+        System.out.println("\t 9  - Se sammenheng mellom form, resultat og forhold");
+        System.out.println("\t 10 - Se trengingslogg");
+        int valg = helper.getIntegerInRangeFromUser("> ", 1, 10);
+        switch (valg){
+            case 1:
+                leggTilOkt();
+                break;
+            case 2:
+                addOvelse();
+                break;
+            case 3:
+                leggTilOvelseIOkt();
+                break;
+            case 4:
+                leggTilResultat();
+                break;
+            case 5:
+                seProgresjon();
+                break;
+            case 6:
+                seMal();
+                break;
+            case 7:
+                seeDiffResultGoal();
+                break;
+            case 8:
+                kopierOkt();
+                break;
+            case 9:
+                System.out.println("Uteøkter:");
+                printUteSammenheng();
+                System.out.println();
+                System.out.println("Inneøkter:");
+                printInneSammenheng();
+                break;
+            case 10:
+                printNotatLog();
+                break;
+        }
+        System.out.println();
+        run();
 
+
+    }
 
     private void printOkter() {
         System.out.println("Registrerte Økter: ");
@@ -111,7 +161,7 @@ public class TrainingApplication {
         }
     }
 
-    // USE CASE 3
+    // USE CASE 2/3
 
     private void seProgresjon() {
         printOvelser();
@@ -140,6 +190,8 @@ public class TrainingApplication {
     // USE CASE 4
 
     private void seeDiffResultGoal() {
+        System.out.println("Tilgjengelige Øvelser:");
+        printOvelser();
         String ovelse = helper.getNotEmptyStringFromUser("Øvelse: ");
         System.out.println("Vil du se differansen for: \n1) Siste Uke \n2) Siste Måned \n3) Siste 3 Måneder");
         int selection = helper.getIntegerInRangeFromUser("", 1, 3);
@@ -237,6 +289,23 @@ public class TrainingApplication {
 
         } else {
             System.out.println("Slettingen er avbrutt.");
+        }
+    }
+
+    private void leggTilOkt() {
+        Okt okt = new Okt(
+                helper.getNotEmptyStringFromUser("Navn på økten: "),
+                helper.getDateFromUser("Dato: "),
+                helper.getTimeFromUser("Starttid: "),
+                helper.getTimeFromUser("Slutttid: "),
+                helper.getIntegerInRangeFromUser("Form: ", 1, 10),
+                helper.getIntegerInRangeFromUser("Prestasjon: ", 1, 10),
+                helper.getNotEmptyStringFromUser("Notat: ")
+        );
+        try {
+            DatabaseInsert.insertOkt(okt);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
